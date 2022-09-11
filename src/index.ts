@@ -17,7 +17,9 @@ const app = express();
     app.use(bodyParser.json());
     app.use(
       sessions({
-        secret: 'thisismysecrctekeyfhrgfgrfrty84fwir767',
+        secret:
+          process.env.SESSION_SECRET ||
+          'thisismysecrctekeyfhrgfgrfrty84fwir767',
         saveUninitialized: true,
         cookie: { maxAge: 1000 * 60 * 60 * 24 }, // one day
         resave: false,

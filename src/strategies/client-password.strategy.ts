@@ -4,8 +4,6 @@ import { Strategy as ClientPasswordStrategy } from 'passport-oauth2-client-passw
 
 const { CLIENT_SECRET, CLIENT_ID } = process.env;
 
-// passport.use(new ClientPasswordStrategy({ passReqToCallback: true }, ));
-
 passport.use(
   'clientPassword',
   new ClientPasswordStrategy(async function (clientId, clientSecret, done) {
