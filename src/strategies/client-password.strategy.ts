@@ -15,9 +15,8 @@ passport.use(
       return done('Invalid client id or secret id', false);
     }
     try {
-      const {
-        data: { access_token, token_type },
-      } = await axios({
+      /** Request to pax */
+      const { data } = await axios({
         url: 'https://login.pax8.com/oauth/token',
         method: 'POST',
         headers: {
@@ -30,14 +29,18 @@ passport.use(
           audience: 'api://p8p.client',
         },
       });
-      if (!access_token || (!token_type && token_type === 'Bearer')) {
+      console.log(data, '<-- response from pax');
+      if (
+        !data.access_token ||
+        (!data.token_type && data.token_type === 'Bearer')
+      ) {
         done('Unauthorized', false);
       }
 
       console.log('Successfully signed in');
       done(null, {
-				access_token
-			});
+        access_token: data.access_token,
+      });
     } catch (e) {
       done(e);
     }
@@ -45,10 +48,10 @@ passport.use(
 );
 
 passport.serializeUser((token, done) => {
-	done(null, token)
-})
+  done(null, token);
+});
 
 passport.deserializeUser((user, done) => {
-	console.log(user, "<-- deseri")
-	done(null)
-})
+  console.log(user, '<-- deseri');
+  done(null);
+});
